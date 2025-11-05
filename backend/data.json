@@ -1,0 +1,110 @@
+{
+  "restaurants": [
+    {
+      "id": "green-bistro",
+      "name": "Green Bistro",
+      "type": "veg",
+      "cuisine": ["North Indian", "Chinese"],
+      "rating": 4.5,
+      "price_for_one": 200,
+      "delivery_time": "30-40 min",
+            "image": "images/restaurants/green-bistro.jpg",
+      "address": "123 Green Street, Downtown"
+    },
+    {
+      "id": "spice-fusion",
+      "name": "Spice Fusion",
+      "type": "non-veg",
+      "cuisine": ["Mughlai", "Biryani"],
+      "rating": 4.3,
+      "price_for_one": 250,
+      "delivery_time": "35-45 min",
+            "image": "images/restaurants/spice-fusion.jpg",
+      "address": "456 Spice Avenue, Midtown"
+    },
+    {
+      "id": "pizza-paradise",
+      "name": "Pizza Paradise",
+      "type": "veg",
+      "cuisine": ["Italian", "Pizza"],
+      "rating": 4.6,
+      "price_for_one": 300,
+      "delivery_time": "25-35 min",
+            "image": "images/restaurants/pizza-paradise.jpg",
+      "address": "789 Pizza Lane, Uptown"
+    }
+  ],
+  "menu_items": [
+    {
+      "id": "paneer-butter-masala",
+      "restaurant_id": "green-bistro",
+      "name": "Paneer Butter Masala",
+      "description": "Rich and creamy paneer curry",
+      "price": 220,
+      "type": "veg",
+      "category": "Main Course",
+            "image": "images/dishes/paneer-butter-masala.jpg",
+      "is_spicy": true,
+      "is_bestseller": true
+    },
+    {
+      "id": "veg-biryani",
+      "restaurant_id": "green-bistro",
+      "name": "Veg Biryani",
+      "description": "Fragrant rice with mixed vegetables",
+      "price": 180,
+      "type": "veg",
+      "category": "Rice",
+            "image": "images/dishes/veg-biryani.jpg",
+      "is_spicy": true,
+      "is_bestseller": false
+    },
+    {
+      "id": "butter-chicken",
+      "restaurant_id": "spice-fusion",
+      "name": "Butter Chicken",
+      "description": "Classic creamy chicken curry",
+      "price": 280,
+      "type": "non-veg",
+      "category": "Main Course",
+            "image": "images/dishes/butter-chicken.jpg",
+      "is_spicy": false,
+      "is_bestseller": true
+    },
+    {
+      "id": "chicken-biryani",
+      "restaurant_id": "spice-fusion",
+      "name": "Chicken Biryani",
+      "description": "Aromatic rice with tender chicken",
+      "price": 250,
+      "type": "non-veg",
+      "category": "Rice",
+            "image": "images/dishes/chicken-biryani.jpg",
+      "is_spicy": true,
+      "is_bestseller": true
+    },
+    {
+      "id": "margherita-pizza",
+      "restaurant_id": "pizza-paradise",
+      "name": "Margherita Pizza",
+      "description": "Classic pizza with tomato and mozzarella",
+      "price": 200,
+      "type": "veg",
+      "category": "Pizza",
+            "image": "images/dishes/margherita-pizza.jpg",
+      "is_bestseller": true
+    },
+    {
+      "id": "peri-peri-pizza",
+      "restaurant_id": "pizza-paradise",
+      "name": "Peri Peri Pizza",
+      "description": "Spicy pizza with bell peppers and onions",
+      "price": 250,
+      "type": "veg",
+      "category": "Pizza",
+            "image": "images/dishes/peri-peri-pizza.jpg",
+            "is_spicy": true,
+      "is_bestseller": false
+    }
+  ]
+}

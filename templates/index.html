@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteBites - Food Delivery & Dining</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/restaurant-cards.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app-section.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/location-selector.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>ByteBites</h1>
+                </div>
+                <nav class="main-nav">
+                    <div class="location-selector" onclick="openLocationModal()">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="location-text">
+                            <span class="location-label">DELIVERY TO</span>
+                            <span class="current-location">Select your location</span>
+                        </div>
+                    </div>
+                    <div class="nav-links">
+                        <a href="{{ url_for('home') }}">Home</a>
+                        {% if session.get('user') %}
+                            <a href="{{ url_for('cart') }}">
+                                <i class="fas fa-shopping-cart"></i> Cart
+                            </a>
+                            <span class="user-name">
+                                <i class="fas fa-user"></i> Hey, {{ session.get('user_name', session.get('user')) }}!
+                            </span>
+                            <a href="{{ url_for('logout_page') }}" class="logout-btn">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}">Login</a>
+                            <a href="{{ url_for('signup') }}" class="signup-btn">Sign up</a>
+                        {% endif %}
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Discover the best food & drinks</h1>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search for restaurant, cuisine or a dish">
+            </div>
+        </div>
+    </section>
+
+    <section class="categories-section">
+        <div class="container">
+            <h2>Popular Restaurants</h2>
+            <div class="filter-buttons">
+                <button onclick="filterRestaurants('all')" class="active">All</button>
+                <button onclick="filterRestaurants('veg')">Pure Veg</button>
+                <button onclick="filterRestaurants('non-veg')">Non-Veg</button>
+            </div>
+            <div class="restaurants-grid">
+                {% for restaurant in restaurants %}
+                <div class="restaurant-card" data-type="{{ restaurant.type }}">
+                    <div class="restaurant-image">
+                        <img src="{{ url_for('static', filename=restaurant.image) }}" alt="{{ restaurant.name }}">
+                    </div>
+                    <div class="restaurant-info">
+                        <h3>{{ restaurant.name }}</h3>
+                        <p class="cuisine">{{ ', '.join(restaurant.cuisine) }}</p>
+                        <div class="tags">
+                            <div class="tag-group">
+                                {% if restaurant.type == 'veg' %}
+                                <span class="veg-tag">🟢 Pure Veg</span>
+                                {% else %}
+                                <span class="non-veg-tag">🔴 Non-Veg</span>
+                                {% endif %}
+                            </div>
+                            <span class="price">₹{{ restaurant.price_for_one }} for one</span>
+                        </div>
+                        <button class="view-menu-btn" onclick="navigateToRestaurant('{{ restaurant.id }}')">View Menu</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Menu Items Section -->
+    <section class="featured-items">
+        <div class="container">
+            <h2>Popular Dishes</h2>
+            <div class="menu-items-grid">
+                <!-- Menu Item 1 -->
+                <div class="menu-item" data-type="veg">
+                    <div class="item-image">
+                        <img src="{{ url_for('static', filename='images/dishes/paneer-butter-masala.jpg') }}" alt="Paneer Butter Masala">
+                        <span class="veg-icon">🟢</span>
+                    </div>
+                    <div class="item-info">
+                        <h3>Paneer Butter Masala</h3>
+                        <p class="description">Rich and creamy paneer curry</p>
+                        <div class="price-cart">
+                            <span class="price">₹220</span>
+                            <button class="add-to-cart" onclick="addToCart('paneer-butter-masala', 220, 'veg')">
+                                Add to Cart +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 2 -->
+                <div class="menu-item" data-type="non-veg">
+                    <div class="item-image">
+                        <img src="{{ url_for('static', filename='images/dishes/butter-chicken.jpg') }}" alt="Butter Chicken">
+                        <span class="non-veg-icon">🔴</span>
+                    </div>
+                    <div class="item-info">
+                        <h3>Butter Chicken</h3>
+                        <p class="description">Classic creamy chicken curry</p>
+                        <div class="price-cart">
+                            <span class="price">₹280</span>
+                            <button class="add-to-cart" onclick="addToCart('butter-chicken', 280, 'non-veg')">
+                                Add to Cart +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 3 -->
+                <div class="menu-item" data-type="veg">
+                    <div class="item-image">
+                        <img src="{{ url_for('static', filename='images/dishes/veg-biryani.jpg') }}" alt="Veg Biryani" onerror="this.onerror=null; console.log('Image failed to load:', this.src);">
+                        <span class="veg-icon">🟢</span>
+                    </div>
+                    <div class="item-info">
+                        <h3>Veg Biryani</h3>
+                        <p class="description">Fragrant rice with mixed vegetables</p>
+                        <div class="price-cart">
+                            <span class="price">₹180</span>
+                            <button class="add-to-cart" onclick="addToCart('veg-biryani', 180, 'veg')">
+                                Add to Cart +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 4 -->
+                <div class="menu-item" data-type="non-veg">
+                    <div class="item-image">
+                        <img src="{{ url_for('static', filename='images/dishes/chicken-biryani.jpg') }}" alt="Chicken Biryani">
+                        <span class="non-veg-icon">🔴</span>
+                    </div>
+                    <div class="item-info">
+                        <h3>Chicken Biryani</h3>
+                        <p class="description">Aromatic rice with tender chicken</p>
+                        <div class="price-cart">
+                            <span class="price">₹250</span>
+                            <button class="add-to-cart"
+                                data-item-id="chicken-biryani"
+                                data-item-price="250"
+                                data-item-type="non-veg">
+                                Add to Cart +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart 🛒</h3>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            <div class="total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+    <button class="cart-toggle" onclick="toggleCart()">
+        🛒 <span id="cartCount">0</span>
+    </button>
+
+    <section class="popular-locations">
+        <div class="container">
+            <h2>Popular localities in and around the city</h2>
+            <div class="locations-grid">
+                <div class="location-card">
+                    <h3>Downtown</h3>
+                    <p>458 places</p>
+                </div>
+                <div class="location-card">
+                    <h3>Midtown</h3>
+                    <p>327 places</p>
+                </div>
+                <div class="location-card">
+                    <h3>Uptown</h3>
+                    <p>285 places</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="app-section">
+        <div class="app-content">
+            <div class="app-info">
+                <h2>Get the ByteBites App</h2>
+                <p>Download the app for exclusive offers and real-time order tracking</p>
+                <div class="app-badges">
+                    <a href="#" target="_blank">
+                        <img src="{{ url_for('static', filename='images/app/app-store.png') }}" alt="Download on the App Store" class="app-badge">
+                    </a>
+                    <a href="#" target="_blank">
+                        <img src="{{ url_for('static', filename='images/app/google-play.png') }}" alt="Get it on Google Play" class="app-badge">
+                    </a>
+                </div>
+            </div>
+            <div class="app-image">
+                <img src="{{ url_for('static', filename='images/app/app-screenshot.png') }}" alt="ByteBites App Screenshot">
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>About ByteBites</h3>
+                    <ul>
+                        <li><a href="#">Who We Are</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>For Restaurants</h3>
+                    <ul>
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#">Apps For You</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Learn More</h3>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col social-links">
+                    <h3>Social Links</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ByteBites. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+        <!-- Location Modal -->
+        <div class="location-modal" id="locationModal">
+            <div class="location-modal-content">
+                <div class="modal-header">
+                    <h2>Choose your delivery location</h2>
+                    <button class="close-modal" onclick="closeLocationModal()">&times;</button>
+                </div>
+                
+                <div class="location-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search for area, street name..." oninput="searchLocations(this.value)">
+                </div>
+
+                <div class="detect-location" onclick="detectCurrentLocation()">
+                    <i class="fas fa-location-arrow"></i>
+                    <div>
+                        <h4>Use current location</h4>
+                        <p>Using GPS</p>
+                    </div>
+                </div>
+
+                <div class="popular-locations">
+                    <h3>Popular Locations</h3>
+                    <div class="locations-grid">
+                        <div class="location-item" onclick="selectLocation('Mumbai')">
+                            <h4>Mumbai</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Delhi')">
+                            <h4>Delhi</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Bangalore')">
+                            <h4>Bangalore</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Hyderabad')">
+                            <h4>Hyderabad</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Chennai')">
+                            <h4>Chennai</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Kolkata')">
+                            <h4>Kolkata</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Pune')">
+                            <h4>Pune</h4>
+                        </div>
+                        <div class="location-item" onclick="selectLocation('Ahmedabad')">
+                            <h4>Ahmedabad</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Location selector functionality
+            function openLocationModal() {
+                document.getElementById('locationModal').classList.add('active');
+            }
+
+            function closeLocationModal() {
+                document.getElementById('locationModal').classList.remove('active');
+            }
+
+            function selectLocation(location) {
+                document.querySelector('.current-location').textContent = location;
+                localStorage.setItem('selectedLocation', location);
+                closeLocationModal();
+            }
+
+            function detectCurrentLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        // Here you would typically make an API call to reverse geocode the coordinates
+                        // For now, we'll just show a mock location
+                        selectLocation('Current Location');
+                    }, error => {
+                        alert('Unable to detect location. Please select manually.');
+                    });
+                } else {
+                    alert('Geolocation is not supported by this browser.');
+                }
+            }
+
+            function searchLocations(query) {
+                // Here you would typically make an API call to search for locations
+                // For now, we'll just filter the existing locations
+                const locations = document.querySelectorAll('.location-item');
+                locations.forEach(location => {
+                    const locationName = location.querySelector('h4').textContent.toLowerCase();
+                    if (locationName.includes(query.toLowerCase())) {
+                        location.style.display = 'block';
+                    } else {
+                        location.style.display = 'none';
+                    }
+                });
+            }
+
+            // Load saved location on page load
+            window.addEventListener('load', () => {
+                const savedLocation = localStorage.getItem('selectedLocation');
+                if (savedLocation) {
+                    document.querySelector('.current-location').textContent = savedLocation;
+                }
+            });
+        </script>
+
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    </body>
+</html>

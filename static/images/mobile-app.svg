@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="800" viewBox="0 0 400 800">
+  <rect width="100%" height="100%" fill="#fff" rx="30" />
+  <rect x="40" y="60" width="320" height="640" fill="#f8f8f8" rx="20" />
+  <text x="50%" y="420" font-size="28" text-anchor="middle" fill="#e23744" font-family="sans-serif">ByteBites App</text>
+</svg>

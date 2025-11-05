@@ -1,0 +1,127 @@
+.restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.restaurant-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-5px);
+}
+
+.restaurant-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.restaurant-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.restaurant-info {
+    padding: 20px;
+}
+
+.restaurant-info h3 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.cuisine {
+    color: #666;
+    margin: 10px 0;
+}
+
+.tags {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.veg-tag, .non-veg-tag {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.veg-tag {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.non-veg-tag {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.view-menu-btn {
+    width: 100%;
+    padding: 12px;
+    background: #e23744;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.view-menu-btn:hover {
+    background: #d32f2f;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.filter-buttons button {
+    padding: 10px 25px;
+    border: 2px solid #e23744;
+    border-radius: 25px;
+    background: white;
+    color: #e23744;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.filter-buttons button.active,
+.filter-buttons button:hover {
+    background: #e23744;
+    color: white;
+}
+
+.categories-section {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px 0;
+    margin-top: 20px;
+}
+
+.categories-section h2 {
+    text-align: center;
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
