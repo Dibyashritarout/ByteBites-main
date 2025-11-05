@@ -51,6 +51,25 @@
     </header>
 
     <section class="hero-section">
+        <!-- Video Background -->
+        <div class="video-background">
+            <video autoplay muted loop playsinline id="heroVideo" poster="{{ url_for('static', filename='images/backgrounds/hero-background.jpg') }}">
+                <source src="{{ url_for('static', filename='images/backgrounds/hero-video.mp4') }}" type="video/mp4">
+                <source src="{{ url_for('static', filename='images/backgrounds/hero-video.webm') }}" type="video/webm">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        
+        <!-- 3D Depth Layers -->
+        <div class="depth-layer layer-1"></div>
+        <div class="depth-layer layer-2"></div>
+        <div class="depth-layer layer-3"></div>
+        
+        <!-- Video Control Button -->
+        <button class="video-control" id="videoControl" title="Pause/Play Video">
+            <i class="fas fa-pause"></i>
+        </button>
+        
         <div class="hero-content">
             <h1>Discover the best food & drinks</h1>
             <div class="search-container">
@@ -428,6 +447,9 @@
         <!-- Cart Overlay -->
         <div id="cartOverlay" class="cart-overlay" onclick="toggleCartSidebar()"></div>
 
+        <!-- Load video controls script -->
+        <script src="{{ url_for('static', filename='js/video-controls.js') }}"></script>
+        
         <!-- Load unified cart script -->
         <script src="{{ url_for('static', filename='js/unified-cart.js') }}"></script>
 
