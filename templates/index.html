@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app-section.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/location-selector.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feedback.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -294,6 +295,19 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Feedback and Review Buttons -->
+            <div class="footer-actions">
+                <button class="footer-action-btn review-btn" onclick="openReviewModal()">
+                    <i class="fas fa-star"></i>
+                    <span>Write a Review</span>
+                </button>
+                <button class="footer-action-btn feedback-btn" onclick="openFeedbackModal()">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Send Feedback</span>
+                </button>
+            </div>
+            
             <div class="footer-bottom">
                 <p>&copy; 2025 ByteBites. All rights reserved.</p>
             </div>
@@ -447,11 +461,85 @@
         <!-- Cart Overlay -->
         <div id="cartOverlay" class="cart-overlay" onclick="toggleCartSidebar()"></div>
 
+        <!-- Review Modal -->
+        <div id="reviewModal" class="feedback-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-star"></i> Write a Review</h2>
+                    <button class="close-modal" onclick="closeReviewModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label>Your Rating</label>
+                            <div class="star-rating" id="starRating">
+                                <i class="far fa-star" data-rating="1"></i>
+                                <i class="far fa-star" data-rating="2"></i>
+                                <i class="far fa-star" data-rating="3"></i>
+                                <i class="far fa-star" data-rating="4"></i>
+                                <i class="far fa-star" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="ratingValue" name="rating" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="reviewerName" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Review</label>
+                            <textarea id="reviewText" rows="5" placeholder="Tell us about your experience..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Submit Review
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Modal -->
+        <div id="feedbackModal" class="feedback-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-comment-dots"></i> Send Feedback</h2>
+                    <button class="close-modal" onclick="closeFeedbackModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="feedbackForm">
+                        <div class="form-group">
+                            <label>Feedback Type</label>
+                            <select id="feedbackType" required>
+                                <option value="">Select type</option>
+                                <option value="suggestion">Suggestion</option>
+                                <option value="issue">Report Issue</option>
+                                <option value="compliment">Compliment</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Email (Optional)</label>
+                            <input type="email" id="feedbackEmail" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Feedback</label>
+                            <textarea id="feedbackText" rows="6" placeholder="Share your thoughts with us..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Send Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Load video controls script -->
         <script src="{{ url_for('static', filename='js/video-controls.js') }}"></script>
         
         <!-- Load unified cart script -->
         <script src="{{ url_for('static', filename='js/unified-cart.js') }}"></script>
+        
+        <!-- Load feedback script -->
+        <script src="{{ url_for('static', filename='js/feedback.js') }}"></script>
 
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </body>
