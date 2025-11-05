@@ -28,10 +28,14 @@
                     </div>
                     <div class="nav-links">
                         <a href="{{ url_for('home') }}">Home</a>
+                        
+                        <!-- Unified Cart Button -->
+                        <button class="cart-icon-btn" onclick="toggleCartSidebar()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                        </button>
+                        
                         {% if session.get('user') %}
-                            <a href="{{ url_for('cart') }}">
-                                <i class="fas fa-shopping-cart"></i> Cart
-                            </a>
                             <span class="user-name">
                                 <i class="fas fa-user"></i> Hey, {{ session.get('user_name', session.get('user')) }}!
                             </span>
@@ -222,7 +226,7 @@
                 <p>Download the app for exclusive offers and real-time order tracking</p>
                 <div class="app-badges">
                     <a href="#" target="_blank">
-                        <img src="{{ url_for('static', filename='images/app/app-store.png') }}" alt="Download on the App Store" class="app-badge">
+                        <img src="{{ url_for('static', filename='images/app/app-store.svg') }}" alt="Download on the App Store" class="app-badge">
                     </a>
                     <a href="#" target="_blank">
                         <img src="{{ url_for('static', filename='images/app/google-play.png') }}" alt="Get it on Google Play" class="app-badge">
@@ -382,6 +386,50 @@
                 }
             });
         </script>
+
+        <!-- Unified Cart Sidebar -->
+        <div id="cartSidebar" class="cart-sidebar">
+            <div class="cart-sidebar-header">
+                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+                <button class="close-cart-btn" onclick="toggleCartSidebar()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="cart-sidebar-content" id="cartSidebarContent">
+                <!-- Cart items will be dynamically loaded here -->
+            </div>
+            
+            <div class="cart-sidebar-footer">
+                <div class="cart-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="sidebarSubtotal">₹0</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Fee:</span>
+                        <span>₹40</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Tax (5%):</span>
+                        <span id="sidebarTax">₹0</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>Total:</span>
+                        <span id="sidebarTotal">₹0</span>
+                    </div>
+                </div>
+                <button class="checkout-btn-sidebar" onclick="proceedToCheckout()">
+                    <i class="fas fa-check-circle"></i> Proceed to Checkout
+                </button>
+            </div>
+        </div>
+        
+        <!-- Cart Overlay -->
+        <div id="cartOverlay" class="cart-overlay" onclick="toggleCartSidebar()"></div>
+
+        <!-- Load unified cart script -->
+        <script src="{{ url_for('static', filename='js/unified-cart.js') }}"></script>
 
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     </body>

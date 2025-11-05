@@ -17,7 +17,13 @@
         <nav class="main-nav">
           <div class="nav-links">
             <a href="{{ url_for('home') }}">Home</a>
-            <a href="#" onclick="toggleCart()">Cart</a>
+            
+            <!-- Unified Cart Button -->
+            <button class="cart-icon-btn" onclick="toggleCartSidebar()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+            
             {% if session.get('user') %}
                 <span class="user-name">
                     <i class="fas fa-user"></i> Hey, {{ session.get('user_name', session.get('user')) }}!
@@ -75,30 +81,52 @@
       </div>
     </div>
   </section>
-  <!-- Cart Modal -->
-  <div id="cart-modal" class="modal">
-    <div class="modal-content">
-      <h2>Your Cart</h2>
-      <div id="cartItems"></div>
-      <div class="cart-total">
-        <span>Total:</span>
-        <span id="cartTotal">₹0</span>
-      </div>
-      <button id="checkout-btn" class="checkout-btn">Proceed to Checkout</button>
-    </div>
-  </div>
 
   <!-- Toast -->
   <div id="toast" class="toast"></div>
 
-  <!-- Load cart.js only once -->
-  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+  <!-- Unified Cart Sidebar -->
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-sidebar-header">
+        <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+        <button class="close-cart-btn" onclick="toggleCartSidebar()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="cart-sidebar-content" id="cartSidebarContent">
+        <!-- Cart items will be dynamically loaded here -->
+    </div>
+    
+    <div class="cart-sidebar-footer">
+        <div class="cart-totals">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span id="sidebarSubtotal">₹0</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery Fee:</span>
+                <span>₹40</span>
+            </div>
+            <div class="total-row">
+                <span>Tax (5%):</span>
+                <span id="sidebarTax">₹0</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>Total:</span>
+                <span id="sidebarTotal">₹0</span>
+            </div>
+        </div>
+        <button class="checkout-btn-sidebar" onclick="proceedToCheckout()">
+            <i class="fas fa-check-circle"></i> Proceed to Checkout
+        </button>
+    </div>
+  </div>
   
-  <script>
-    // Add checkout button functionality
-    document.getElementById('checkout-btn').addEventListener('click', function() {
-      window.location.href = "{{ url_for('cart') }}";
-    });
-  </script>
+  <!-- Cart Overlay -->
+  <div id="cartOverlay" class="cart-overlay" onclick="toggleCartSidebar()"></div>
+
+  <!-- Load unified cart script -->
+  <script src="{{ url_for('static', filename='js/unified-cart.js') }}"></script>
 </body>
 </html>
